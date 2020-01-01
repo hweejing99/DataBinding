@@ -7,11 +7,24 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityMainBinding
+    private val myContact = Contact("Thee", "0163541585")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //Display UI
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
 
+        //Assign attribute of local variable to UI variable
+        binding.contact = myContact
+
+        binding.buttonUpdate.setOnClickListener {
+            binding.apply{
+                contact?.name = "My new name"
+                contact?.phone = "111111"
+                invalidateAll() // refresh UI
+            }
+        }
         //create an event handler for buttonSend
         buttonSend.setOnClickListener{
             sendMessage()
